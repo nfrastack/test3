@@ -3,23 +3,26 @@ name: "manual_build_image"
 on:
   workflow_dispatch:
     inputs:
-      Manual Build:
-        description: 'Manual Build'
+      platforms:
+        description: 'Target platforms (comma-separated, e.g. amd64,arm64)'
+        required: false
+        default: 'amd64,arm64'
+      CLAMAV_VERSION:
+        description: 'Override ClamAV version'
         required: false
 
-#jobs:
-#  build:
-#    uses: tiredofit/github_actions/.github/workflows/default_amd64.yml@main
-#    #uses: tiredofit/github_actions/.github/workflows/default_amd64.yml@main
-#    #uses: tiredofit/github_actions/.github/workflows/default_amd64_armv7_arm64.yml@main
-#    #uses: tiredofit/github_actions/.github/workflows/default_amd64_arm64.yml@main
-#    secrets: inherit
-
 jobs:
+  prepare:
+    uses: nfrastack/gha/.github/workflows/encrypt.yml@main
+    secrets: inherit
   build:
-    #uses: tiredofit/github_actions/.github/workflows/default_amd64.yml@main
-    uses: ./.github/workflows/action.yaml
-    #uses: tiredofit/github_actions/.github/workflows/default_amd64.yml@main
-    #uses: tiredofit/github_actions/.github/workflows/default_amd64_armv7_arm64.yml@main
-    #uses: tiredofit/github_actions/.github/workflows/default_amd64_arm64.yml@main
+    needs: prepare
+    uses: nfrastack/gha/.github/workflows/build.yml@main
+    with:
+      platforms: ${{ github.event.inputs.platforms }}
+      version: ${{ github.event.inputs.CLAMAV_VERSION }}
+    secrets: inherit
+  cleanup:
+    needs: build
+    uses: nfrastack/gha/.github/workflows/remove_artifacts.yml@main
     secrets: inherit

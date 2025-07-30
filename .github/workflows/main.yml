@@ -1,16 +1,15 @@
-name: "build_image"
+name: Build Image
 
 on:
   push:
     paths:
-      - "**"
-      - "!README.md"
+      - '**'
+      - '!README.md'
 
 jobs:
   build:
-    #uses: tiredofit/github_actions/.github/workflows/default_amd64.yml@main
-    uses: ./.github/workflows/action.yaml
-    #uses: tiredofit/github_actions/.github/workflows/default_amd64.yml@main
-    #uses: tiredofit/github_actions/.github/workflows/default_amd64_armv7_arm64.yml@main
-    #uses: tiredofit/github_actions/.github/workflows/default_amd64_arm64.yml@main
+    uses: nfrastack/gha/.github/workflows/main.yml@main
+    with:
+      platforms: amd64,arm64
+      version: ''
     secrets: inherit
