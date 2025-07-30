@@ -5,7 +5,7 @@
 ARG REGISTRY="ghcr.io"
 ARG DISTRO="alpine"
 ARG DISTRO_VARIANT="3.22"
-
+#ghcr.io/nfrastack/container-base:alpine_3.22
 FROM ${REGISTRY}/nfrastack/container-base:${DISTRO}_${DISTRO_VARIANT}
 
 LABEL \
