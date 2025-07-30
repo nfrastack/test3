@@ -1,3 +1,6 @@
+## 3.0.0 2025-08-01 <code at nfrastack dot com>
+
+
 ## 2.6.17 2024-05-22 <dave at tiredofit dot ca>
 
    ### Added
