@@ -1,0 +1,58 @@
+name: Build, Tag, and Push Image
+
+on:
+  workflow_call:
+    inputs:
+      platforms:
+        required: false
+        type: string
+        default: 'amd64,arm64'
+      version:
+        required: false
+        type: string
+      distro:
+        required: false
+        type: string
+        default: 'alpine'
+      distro_variant:
+        required: false
+        type: string
+        default: 'latest'
+      image_base_modules:
+        required: false
+        type: string
+        default: ''
+      image_modules:
+        required: false
+        type: string
+        default: ''
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build, Tag, and Push
+        uses: ./.github/actions/action.yaml
+        with:
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          context: .
+          file: ./Containerfile
+          platforms: ${{ inputs.platforms }}
+          push: true
+          tags: ${{ env.container_images }}
+          build-args: |
+            DISTRO=${{ inputs.distro }}
+            DISTRO_VARIANT=${{ inputs.distro_variant }}
+            IMAGE_BASE_MODULES=${{ inputs.image_base_modules }}
+            IMAGE_MODULES=${{ inputs.image_modules }}
+      # Add encryption, artifact upload, and cleanup steps as needed
