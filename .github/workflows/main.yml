@@ -8,7 +8,8 @@ on:
 
 jobs:
   build:
-    uses: tiredofit/github_actions/.github/workflows/default_amd64.yml@main
+    #uses: tiredofit/github_actions/.github/workflows/default_amd64.yml@main
+    uses: ./.github/actions/build/action.yaml
     #uses: tiredofit/github_actions/.github/workflows/default_amd64.yml@main
     #uses: tiredofit/github_actions/.github/workflows/default_amd64_armv7_arm64.yml@main
     #uses: tiredofit/github_actions/.github/workflows/default_amd64_arm64.yml@main
