@@ -1,15 +1,20 @@
-name: Build Image
+name: Build and Push Docker Image
 
 on:
-  push:
-    paths:
-      - '**'
-      - '!README.md'
+  workflow_dispatch:
 
 jobs:
   build:
-    uses: nfrastack/gha/.github/workflows/main.yml@main
-    with:
-      platforms: amd64,arm64
-      version: ''
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and Push Image
+        uses: nfrastack/gha/.github/actions/build_simple_image@main
+        with:
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Optionally override:
+          # platforms: linux/amd64,linux/arm64
+          # version: v1.2.3
