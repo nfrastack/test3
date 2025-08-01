@@ -8,16 +8,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build and Push Image
-        uses: nfrastack/gha/.github/actions/build_simple_image@main
-        with:
-          docker_username: ${{ secrets.DOCKER_USERNAME }}
-          docker_password: ${{ secrets.DOCKER_PASSWORD }}
-          github_token: ${{ secrets.LICENSE_PAT }}
-          # Optionally override:
-          # platforms: linux/amd64,linux/arm64
-          # version: v1.2.3
+    uses: nfrastack/gha/.github/workflows/default_amd64_arm64_modern.yml@main
+    with:
+      build_file: Containerfile
+      platforms: linux/amd64,linux/arm64
+      version: ""
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      GHCR_PAT: ${{ secrets.GHCR_PAT }}
