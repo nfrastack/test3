@@ -1,19 +1,20 @@
-name: Build and Push Docker Image
+name: "build_image"
 
 on:
   push:
     paths:
-      - '**'
-      - '!README.md'
+      - "**"
+      - "!README.md"
 
 jobs:
+  prepare:
+    uses: nfrastack/gha/.github/workflows/encrypt.yml@main
+    secrets: inherit
   build:
-    uses: nfrastack/gha/.github/workflows/default_amd64_arm64_modern.yml@main
-    with:
-      build_file: Containerfile
-      platforms: linux/amd64,linux/arm64
-      version: ""
-    secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      GHCR_PAT: ${{ secrets.GHCR_PAT }}
+    uses: nfrastack/gha/.github/workflows/default_amd64_arm64.yml@main
+    secrets: inherit
+  cleanup:
+    needs: [build]
+    uses: nfrastack/gha/.github/workflows/remove_artifacts.yml@main
+    secrets: inherit
+
