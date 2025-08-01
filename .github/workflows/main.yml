@@ -17,7 +17,7 @@ jobs:
         with:
           docker_username: ${{ secrets.DOCKER_USERNAME }}
           docker_password: ${{ secrets.DOCKER_PASSWORD }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.LICENSE_PAT }}
           # Optionally override:
           # platforms: linux/amd64,linux/arm64
           # version: v1.2.3
